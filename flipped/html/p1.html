@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Switched Match</title>
+  <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+
+  <style type="text/css" media="all">
+    * {
+      font-family: "Oswald", sans-serif;
+    }
+
+    body {
+      background: #ffffe6;
+    }
+
+    #bar, #barTwo {
+      background: #4d4d4d;
+      width: 420px;
+      height: 50px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      visibility: hidden;
+      transform: translate(0px, -300px);
+      -webkit-transform: translate(0px, -300px);
+    }
+
+    .barItem {
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      float: left;
+      padding: 0px 12px;
+      color: white;
+      font-size: 30px;
+    }
+    .pause {
+      float: right;
+      cursor: pointer;
+    }
+    .icon {
+      position: relative;
+      max-width: 80%;
+      max-height: 80%;
+    }
+    #time, #matchTwo {
+      position: absolute;
+      left: 160px;
+    }
+    #menu, #complete, #completeTwo, #options, #names {
+      background: #4d4d4d;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      -webkit-transform: translate(0px, 30px);
+      transform: translate(0px, 30px);
+    }
+
+    #menu {
+      width: 300px;
+      height: 400px;
+      z-index: 1;
+    }
+
+    #complete, #completeTwo {
+      width: 300px;
+      height: 240px;
+      padding: 10px 0px;
+      z-index: -1;
+      color: white;
+      font-size: 22px;
+      letter-spacing: 1px;
+      text-align: center;
+      line-height: 50px;
+    }
+    #complete {
+      height: 140px;
+    }
+    #options {
+      width: 300px;
+      height: 145px;
+      z-index: -1;
+    }
+    #names {
+      width: 300px;
+      height: 218px;
+      z-index: -1;
+    }
+    a{
+      color: inherit;
+      text-decoration: none;
+    }
+    input {
+      width: 250px;
+      height: 50px;
+      display: block;
+      margin: 14px 24px;
+      letter-spacing: 1px;
+      font-size: 24px;
+      padding: 0;
+    }
+    .turn {
+      background: #81a8ae;
+      color: white;
+    }
+
+    .button {
+      background: #81a8ae;
+      width: 250px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      margin: 14px 24px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .clicked,
+    .button:hover {
+      background: #a8d4db;
+    }
+
+    #play:hover {
+      background: #d18db5;
+    }
+    #highscore {
+      background: #4d4d4d;
+      width: 250px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 24px;
+      color: white;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      transform: translate(0px, 360px);
+      -webkit-transform: translate(0px, 360px);
+    }
+
+    #board {
+      background: #CCC;
+      width: 530px;
+      height: 520px;
+      padding: 30px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      z-index: 0;
+      -webkit-transform: translate(0px, 30px);
+      transform: translate(0px, 30px);
+    }
+
+    #board>div.tile {
+      position: relative;
+      width: 111px;
+      height: 111px;
+      float: left;
+      margin: 10px;
+      padding: 0px;
+      cursor: pointer;
+    }
+
+    img {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      max-width: 100%;
+      max-height: 100%;
+      backface-visibility: hidden;
+    }
+
+    .back {
+      background: #a0a0a0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      transform: perspective(300px) rotateY(0deg);
+      -webkit-transform: perspective(300px) rotateY(0deg);
+      transition: all .3s linear;
+      -webkit-transition: all .3s linear;
+    }
+
+    .front {
+      transform: perspective(300px) rotateY(180deg);
+      -webkit-transform: perspective(300px) rotateY(180deg);
+      transition: all .1s, transform .3s linear 0s, ;
+      -webkit-transition: all .1s, -webkit-transform .3s linear 0s;
+    }
+
+    .back.flip {
+      transform: perspective(300px) rotateY(-180deg);
+      -webkit-transform: perspective(300px) rotateY(-180deg);
+    }
+
+    .front.flip {
+      transform: perspective(300px) rotateY(0deg);
+      -webkit-transform: perspective(300px) rotateY(0deg);
+    }
+
+    .shrink {
+      max-width: 60%;
+      max-height: 60%;
+      top: 20px;
+      left: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- My game code starts here -->
+  <div id="bar">
+    <div class="barItem" id="moves"> Moves: 0 </div>
+    <div class="barItem" id="time"> Time: 00:00 </div>
+    <div class="barItem pause">
+      <img class="icon" src="../image/pause.png">
+    </div>
+  </div>
+
+  <div id="barTwo">
+    <div class="barItem turn" id="matchOne"> Player 1: 0</div>
+    <div class="barItem" id="matchTwo"> Player 2: 0 </div>
+    <div class="barItem pause">
+      <img class="icon" src="../image/pause.png">
+    </div>
+  </div>
+
+  <div id="menu">
+    <div class="button clicked" id="onePl"> Single player </div>
+    <div class="button" id="twoPl"> Double player </div>
+    <div class="button clicked" id="easy"> Easy </div>
+    <div class="button" id="medium"> Medium </div>
+    <div class="button" id="hard"> Hard </div>
+    <div class="button" id="play"> Play! </div>
+  </div>
+
+  <div id="names">
+    <input type="text" id="nameOne" value="" placeholder="Player One Name" maxlength="8">
+    <input type="text" id="nameTwo" value="" placeholder="Player Two Name" maxlength="8">
+    <div class="button" id="start"> Start! </div>
+  </div>
+
+  <div id="options">
+    <div class="button" id="resume"> Resume </div>
+    <div class="button restart"> New Game </div>
+  </div>
+
+  <div id="complete">
+    <div id="score"> Score: </div>
+    <div class="button restart"> Play Again! </div>
+  </div>
+  <div id="completeTwo">
+    <div id="winner"> You win! </div>
+    <div id="scoreTwo"> Score: </div>
+    <div class="button restart"> Play Again! </div>
+    <div class="button"> <a href="index.html">Back to Main Page</a> </div>
+  </div>
+  <div id="highscore">
+    Highscore: 0
+  </div>
+
+  <div id="board">
+
+  </div>
+  <script type="text/javascript" src="../js/p1.js">
+  </script>
+</body>
+<script src="../js/menu.js"></script>
+<script src="../js/displayHighscore.js"></script>
+
+</html>
