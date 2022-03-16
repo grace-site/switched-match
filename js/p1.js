@@ -162,7 +162,7 @@ function newBoard() {
     var divOutput = "<div class='tile' id='tile_" + i + "' onclick='flip(this, \"" + memArray[i] + "\", \"#img_" + i + "\", \"#back_" + i + "\")'></div>";
     board.innerHTML += divOutput;
 
-    var imgOutput = "<img id='img_" + i + "' class='front' src='../image/" + memArray[i] + "'>"
+    var imgOutput = "<img id='img_" + i + "' class='front' src='../images/" + memArray[i] + "'>"
     imgOutput += "<div id='back_" + i + "' class='back'></div>"
     document.querySelector("#tile_" + i).innerHTML += imgOutput;
   }
